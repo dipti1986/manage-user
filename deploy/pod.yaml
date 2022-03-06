@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: manage-user
+spec:
+  containers:
+  - name: manage-user
+    image: manage-user:0.1
+    ports:
+    - containerPort: 5000
+    env:
+    - name: MYSQL_DATABASE_DB
+      value: "userdb"
+    - name: MYSQL_DATABASE_USER
+      value: "root"  
+    - name: MYSQL_DATABASE_PASSWORD
+      value: "password"
+    - name: MYSQL_DATABASE_HOST
+      value: "127.0.0.1"   
+  - name: manage-user-db
+    image: mysql
+    ports:
+    - containerPort: 3306
+    env:
+    - name: MYSQL_DATABASE
+      value: "userdb"
+    - name: MYSQL_ROOT_PASSWORD
+      value: "password"
+    volumeMounts:
+    - mountPath: /docker-entrypoint-initdb.d/1.sql
+      name: create-db
+  volumes:
+  - name: create-db
+    hostPath:
+      path: "/Users/sanchoud1/Documents/Dipti/workspace/assignment/manage-user/deploy/create_db.sql"
+      type: File
