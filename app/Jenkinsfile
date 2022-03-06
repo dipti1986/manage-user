@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Docker Push Registry') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD'))]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 sh """
                     sudo docker login --username ${USERNAME} --password ${PASSWORD}
                     sudo docker push diptichoudhary/${JOB_NAME}:${BUILD_NUMBER}
