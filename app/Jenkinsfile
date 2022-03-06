@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label "main"
+    }
     stages {
         stage('build') {
             steps {
@@ -22,8 +24,15 @@ pipeline {
             }
         }
         stage('Deploy to Docker swarm') {
+            agent {
+                label "docker-swarm-manager"
+            }
             steps {
-                sh 'echo docker swarm'
+                sh """
+                    export IMAGE_NAME=diptichoudhary/${JOB_NAME}
+                    export IMAGE_TAG=${BUILD_NUMBER}
+                    docker stack deploy --compose-file docker-compose.yaml ${JOB_NAME}
+                """
             }
         }
     }
