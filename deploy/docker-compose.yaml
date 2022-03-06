@@ -4,7 +4,7 @@ services:
   web:
     image: ${IMAGE_NAME}:${IMAGE_TAG}
     ports:
-      - "5000:5000"
+      - "80:5000"
     environment:
       - MYSQL_DATABASE_USER=root
       - MYSQL_DATABASE_PASSWORD=password

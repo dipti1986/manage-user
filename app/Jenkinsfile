@@ -29,9 +29,7 @@ pipeline {
             }
             steps {
                 sh """
-                    export IMAGE_NAME=diptichoudhary/${JOB_NAME}
-                    export IMAGE_TAG=${BUILD_NUMBER}
-                    sudo docker stack deploy --compose-file ./deploy/docker-compose.yaml ${JOB_NAME}
+                    sudo IMAGE_TAG=${BUILD_NUMBER} IMAGE_NAME=diptichoudhary/${JOB_NAME} docker stack deploy --compose-file ./deploy/docker-compose.yaml ${JOB_NAME}
                 """
             }
         }
