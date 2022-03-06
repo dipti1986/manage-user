@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'Testing Successfull...'
+                sh 'echo Testing Successfull...'
             }
         }
         stage('build Docker Image') {
@@ -13,12 +13,12 @@ pipeline {
         }
         stage('Docker Push Registry') {
             steps {
-                sh 'docker login'
+                sh 'echo docker login'
             }
         }
         stage('Deploy to Docker swarm') {
             steps {
-                sh 'docker swarm'
+                sh 'echo docker swarm'
             }
         }
     }
