@@ -3,7 +3,7 @@ pipeline {
         label "main"
     }
     stages {
-        stage('build') {
+        stage('Test App') {
             steps {
                 sh 'echo Testing Successfull...'
             }
