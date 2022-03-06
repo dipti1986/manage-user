@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+    stages {
+        stage('build') {
+            steps {
+                sh 'Testing Successfull...'
+            }
+        }
+        stage('build Docker Image') {
+            steps {
+                sh 'cd ./app && docker build .'
+            }
+        }
+        stage('Docker Push Registry') {
+            steps {
+                sh 'docker login'
+            }
+        }
+        stage('Deploy to Docker swarm') {
+            steps {
+                sh 'docker swarm'
+            }
+        }
+    }
+}
