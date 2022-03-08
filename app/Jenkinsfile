@@ -5,10 +5,18 @@ pipeline {
     stages {
         stage('Test App') {
             steps {
-                sh 'echo Testing Successfull...'
+                sh 'python3 -m pytest --cov=main --cov-report html'
+                publishHTML target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: true,
+                    reportDir: 'app/htmlcov',
+                    reportFiles: 'index.html',
+                    reportName: 'Code Coverage Report'
+                ]
             }
         }
-        stage('build Docker Image') {
+        stage('Build Docker Image') {
             steps {
                 sh "cd ./app && sudo docker build . --tag diptichoudhary/${JOB_NAME}:${BUILD_NUMBER}"
             }
@@ -23,7 +31,7 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to Docker swarm') {
+        stage('Deploy To Docker Swarm') {
             agent {
                 label "docker-swarm-manager"
             }
