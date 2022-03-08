@@ -4,7 +4,7 @@ pipeline {
     }
     stages {
         stage('Test App') {
-            when { branch pattern: "^(?!master).*$", comparator: "REGEXP"}
+            when { branch pattern: "^(?!master).*\$", comparator: "REGEXP"}
             steps {
                 sh '''
                     pip install -r app/requirements.txt
