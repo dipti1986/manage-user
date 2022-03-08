@@ -47,6 +47,7 @@ pipeline {
                     sh """
                         sudo DB_PASSWORD=${SECRET} IMAGE_TAG=${BUILD_NUMBER} IMAGE_NAME=diptichoudhary/${JOB_NAME} docker stack deploy --compose-file ./deploy/docker-compose.yaml ${JOB_NAME}
                     """
+                }
             }
         }
     }
