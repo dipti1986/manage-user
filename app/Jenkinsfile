@@ -24,8 +24,10 @@ pipeline {
         stage('Build Docker Image') {
             when { branch pattern: "master", comparator: "REGEXP"}
             steps {
-                IMAGE_NAME = "${JOB_NAME}".tokenize("/")[0]
-                sh "cd ./app && sudo docker build . --tag diptichoudhary/${IMAGE_NAME}:${BUILD_NUMBER}"
+                script{
+                    IMAGE_NAME = "${JOB_NAME}".tokenize("/")[0]
+                    sh "cd ./app && sudo docker build . --tag diptichoudhary/${IMAGE_NAME}:${BUILD_NUMBER}"
+                }
             }
         }
         stage('Docker Push Registry') {
