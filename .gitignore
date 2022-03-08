@@ -2,4 +2,5 @@ app/__pycache__
 app/.pytest_cache
 app/htmlcov
 app/.coverage
-tests/__pycache__
+app/tests/__pycache__
+
