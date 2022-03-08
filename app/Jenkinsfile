@@ -6,10 +6,8 @@ pipeline {
         stage('Test App') {
             steps {
                 sh '''
-                    bash deploy/start-manage-user-db.sh
                     pip install -r app/requirements.txt
                     cd app && python3 -m pytest --cov=main --cov-report html
-                    docker rm $(docker ps -a -q --filter="name=mysql") -f
                 '''
                 publishHTML target: [
                     allowMissing: false,
