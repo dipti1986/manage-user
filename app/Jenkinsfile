@@ -5,7 +5,10 @@ pipeline {
     stages {
         stage('Test App') {
             steps {
-                sh 'python3 -m pytest --cov=main --cov-report html'
+                sh '''
+                    pip install -r requirements.txt
+                    python3 -m pytest --cov=main --cov-report html
+                '''
                 publishHTML target: [
                     allowMissing: false,
                     alwaysLinkToLastBuild: false,
