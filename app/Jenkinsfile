@@ -1,3 +1,4 @@
+def IMAGE_NAME=''
 pipeline {
     agent {
         label "main"
@@ -23,7 +24,8 @@ pipeline {
         stage('Build Docker Image') {
             when { branch pattern: "master", comparator: "REGEXP"}
             steps {
-                sh "cd ./app && sudo docker build . --tag diptichoudhary/${JOB_NAME}:${BUILD_NUMBER}"
+                IMAGE_NAME = "${JOB_NAME}".tokenize("/")[0]
+                sh "cd ./app && sudo docker build . --tag diptichoudhary/${IMAGE_NAME}:${BUILD_NUMBER}"
             }
         }
         stage('Docker Push Registry') {
@@ -32,7 +34,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 sh """
                     sudo docker login --username ${USERNAME} --password ${PASSWORD}
-                    sudo docker push diptichoudhary/${JOB_NAME}:${BUILD_NUMBER}
+                    sudo docker push diptichoudhary/${IMAGE_NAME}:${BUILD_NUMBER}
                 """
                 }
             }
@@ -45,7 +47,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'db_password', variable: 'SECRET')]) {
                     sh """
-                        sudo DB_PASSWORD=${SECRET} IMAGE_TAG=${BUILD_NUMBER} IMAGE_NAME=diptichoudhary/${JOB_NAME} docker stack deploy --compose-file ./deploy/docker-compose.yaml ${JOB_NAME}
+                        sudo DB_PASSWORD=${SECRET} IMAGE_TAG=${BUILD_NUMBER} IMAGE_NAME=diptichoudhary/${IMAGE_NAME} docker stack deploy --compose-file ./deploy/docker-compose.yaml ${IMAGE_NAME}
                     """
                 }
             }
