@@ -7,7 +7,7 @@ pipeline {
             steps {
                 sh '''
                     pip install -r app/requirements.txt
-                    cd app && python3 -m pytest --cov=main --cov-report html
+                    cd app && python3 -m pytest --cov=. --cov-report html
                 '''
                 publishHTML target: [
                     allowMissing: false,
